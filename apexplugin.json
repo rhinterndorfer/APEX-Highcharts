@@ -1,0 +1,35 @@
+{
+    "name": "APEX Highcharts",
+    "version": "0.1",
+    "description": "his plug-in is used to add charts powered by Highcharts (https://www.highcharts.com/products/highcharts) to your application with as little affort as possible (for simple charts) but also support the full power of Highcharts for advanced projects. Login for demo is user: demo, password: 12345678",
+    "keywords": ["oracle", "apex", "plugin", "region", "charts", "highcharts"],
+    "homepage": "https://github.com/rhinterndorfer/APEX-Highcharts",
+    "bugs": {
+        "url": "https://github.com/rhinterndorfer/APEX-Highcharts",
+        "email": "dev@rammelhof.at"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Raphael Hinterndorfer",
+        "email": "dev@rammelhof.at",
+        "url": "https://www.rammelhof.at",
+        "twitter": "rammelhofdotat",
+        "donationUrl": "https://paypal.me/rhinterndorfer"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rhinterndorfer/APEX-Highcharts.git"
+    },
+    "oracle": {
+        "versions": ["11.2.0.2.0","18.0.0.0.0"],
+        "apex": {
+            "versions": ["5.1.4.00.08","19.2.0.00.18"],
+            "plugin": {
+                "internalName": "AT.RAMMELHOF.APEX.HIGHCHARTS",
+                "type": "region",
+                "demo": "https://apex.oracle.com/pls/apex/f?p=105972:1200",
+                "previewImage": "https://github.com/rhinterndorfer/APEX-Highcharts/blob/master/screenshot.png?raw=true"
+            }
+        }
+    }
+}
