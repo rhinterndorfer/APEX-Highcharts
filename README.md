@@ -39,6 +39,6 @@ Currently the plugin supports following series types:
 *  timeline
 *  wordcloud
 
-Please proceed to the demo application for examples and configuration examples.
+Please proceed to the demo application for chart and configuration examples.
 *  https://apex.oracle.com/pls/apex/f?p=105972:1200
 *  Login is: demo / 12345678

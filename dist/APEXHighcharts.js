@@ -66,13 +66,17 @@
                 console.log(`Load highchart serie for region ${elementId}`);
                 server.plugin(ajaxId, {}, {
                     success: function (pData) {
-                        apexHighcharts.chart.addSerie(chart, pData, initCodeFuncStr);
+                        apexHighcharts.chart.addSerie(i, chart, pData, initCodeFuncStr);
                     }
                 });
             });
         },
-        addSerie: function(pChart, pData, pInitCodeFuncStr){
+        addSerie: function(pIndex, pChart, pData, pInitCodeFuncStr){
             console.log(pData);
+            if(!pData.index) { pData.index = pIndex; }
+            if(!pData.legendIndex) { pData.legendIndex = pIndex; }
+            if(!pData.zIndex) { pData.zIndex = pIndex; }
+            
             var serie = pChart.addSeries(pData, false, true);
             var func = new Function("return "+pInitCodeFuncStr);
             func()(serie);
