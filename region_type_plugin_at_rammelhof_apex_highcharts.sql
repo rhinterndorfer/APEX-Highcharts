@@ -158,6 +158,7 @@ wwv_flow_api.create_plugin(
 ,p_standard_attributes=>'SOURCE_SQL:AJAX_ITEMS_TO_SUBMIT:INIT_JAVASCRIPT_CODE'
 ,p_substitute_attributes=>true
 ,p_subscribe_plugin_settings=>true
+,p_help_text=>'https://github.com/rhinterndorfer/APEX-Highcharts/blob/master/docs/README.md'
 ,p_version_identifier=>'0.1'
 ,p_about_url=>'https://github.com/rhinterndorfer/APEX-Highcharts'
 ,p_files_version=>29
