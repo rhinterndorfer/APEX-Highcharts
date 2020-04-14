@@ -1,0 +1,1 @@
+# APEX-Highcharts dynamic chart

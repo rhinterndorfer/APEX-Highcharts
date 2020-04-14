@@ -66,21 +66,36 @@
                 console.log(`Load highchart serie for region ${elementId}`);
                 server.plugin(ajaxId, {}, {
                     success: function (pData) {
-                        apexHighcharts.chart.addSerie(i, chart, pData, initCodeFuncStr);
+                        if(pData.series) {
+                            for(var s=0;s<pData.series.length;s++){
+                                var serie_option = pData.series[s];
+                                serie_option.name = serie_option.name || pData.name;
+                                serie_option.type = serie_option.type || pData.type;
+                                serie_option.color = serie_option.color || pData.color;
+                                
+                                apexHighcharts.chart.addSerie(i*100+s, chart, serie_option, initCodeFuncStr);
+                            }
+                            chart.redraw();
+                        }
+                        else {
+                            apexHighcharts.chart.addSerie(i*100, chart, pData, initCodeFuncStr);
+                            chart.redraw();
+                        }
                     }
                 });
             });
         },
-        addSerie: function(pIndex, pChart, pData, pInitCodeFuncStr){
+        addSerie: async function(pIndex, pChart, pData, pInitCodeFuncStr){
             console.log(pData);
-            if(!pData.index) { pData.index = pIndex; }
-            if(!pData.legendIndex) { pData.legendIndex = pIndex; }
-            if(!pData.zIndex) { pData.zIndex = pIndex; }
+            var serie_option = pData;
             
-            var serie = pChart.addSeries(pData, false, true);
+            if(!serie_option.index) { serie_option.index = pIndex; }
+            if(!serie_option.legendIndex) { serie_option.legendIndex = pIndex; }
+            if(!serie_option.zIndex) { serie_option.zIndex = pIndex; }
+            
+            var serie = pChart.addSeries(serie_option, false, true);
             var func = new Function("return "+pInitCodeFuncStr);
             func()(serie);
-            pChart.redraw();
         }
     }
 }(window.apexHighcharts = window.apexHighcharts || {}, apex.jQuery, apex.server, apex.util, apex.debug);

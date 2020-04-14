@@ -115,7 +115,23 @@ wwv_flow_api.create_plugin(
 '        p_key => ''highcharts_heatmap''',
 '      );',
 '  end if;',
-'  if p_region.attribute_01 in (''bubble'',''packedbubble'') then',
+'  if p_region.attribute_01 = ''solidgauge'' then',
+'      APEX_JAVASCRIPT.ADD_LIBRARY (',
+'        p_name => ''solid-gaugesolid-gauge.js'',',
+'        p_directory => case when l_highcharts_version = ''latest'' then ''https://code.highcharts.com/modules/'' else ''https://code.highcharts.com/''||l_highcharts_version||''/modules/'' end,',
+'        p_skip_extension => true,',
+'        p_key => ''highcharts_solidgauge''',
+'      );',
+'  end if;',
+'  if p_region.attribute_01 in (''funnel'',''pyramid'') then',
+'      APEX_JAVASCRIPT.ADD_LIBRARY (',
+'        p_name => ''funnel.js'',',
+'        p_directory => case when l_highcharts_version = ''latest'' then ''https://code.highcharts.com/'' else ''https://code.highcharts.com/''||l_highcharts_version||''/'' end,',
+'        p_skip_extension => true,',
+'        p_key => ''highcharts_funnel''',
+'      );',
+'  end if;',
+'  if p_region.attribute_01 in (''bubble'',''packedbubble'',''gauge'',''polygon'') then',
 '      APEX_JAVASCRIPT.ADD_LIBRARY (',
 '        p_name => ''highcharts-more.js'',',
 '        p_directory => case when l_highcharts_version = ''latest'' then ''https://code.highcharts.com/'' else ''https://code.highcharts.com/''||l_highcharts_version||''/'' end,',
@@ -123,6 +139,7 @@ wwv_flow_api.create_plugin(
 '        p_key => ''highcharts_more''',
 '      );',
 '  end if;',
+'  ',
 '',
 '  -- Add placeholder div',
 '  sys.htp.p (',
@@ -161,10 +178,15 @@ wwv_flow_api.create_plugin(
 '  open c for l_query;',
 '',
 '  apex_json.open_object;',
-'  apex_json.write(''data'', c);',
+'  if p_region.attribute_25 = ''full'' then',
+'      apex_json.write(''series'', c);',
+'  else',
+'      apex_json.write(''data'', c);',
+'  end if;',
 '  apex_json.write(''name'', p_region.name);',
 '  apex_json.write(''type'', p_region.attribute_01);',
 '  apex_json.write(''color'', p_region.attribute_02);',
+'  apex_json.write(''query_type'', p_region.attribute_25);',
 '  apex_json.close_object;',
 '',
 '  return null;',
@@ -197,7 +219,7 @@ wwv_flow_api.create_plugin_attribute(
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>1
 ,p_display_sequence=>10
-,p_prompt=>'Type'
+,p_prompt=>'Serie type'
 ,p_attribute_type=>'SELECT LIST'
 ,p_is_required=>true
 ,p_default_value=>'spline'
@@ -233,6 +255,13 @@ wwv_flow_api.create_plugin_attr_value(
 ,p_return_value=>'column'
 );
 wwv_flow_api.create_plugin_attr_value(
+ p_id=>wwv_flow_api.id(23034063668805282)
+,p_plugin_attribute_id=>wwv_flow_api.id(22822310767007183)
+,p_display_sequence=>45
+,p_display_value=>'gauge'
+,p_return_value=>'gauge'
+);
+wwv_flow_api.create_plugin_attr_value(
  p_id=>wwv_flow_api.id(22897729135545768)
 ,p_plugin_attribute_id=>wwv_flow_api.id(22822310767007183)
 ,p_display_sequence=>50
@@ -261,11 +290,32 @@ wwv_flow_api.create_plugin_attr_value(
 ,p_return_value=>'pie'
 );
 wwv_flow_api.create_plugin_attr_value(
+ p_id=>wwv_flow_api.id(23048078700820904)
+,p_plugin_attribute_id=>wwv_flow_api.id(22822310767007183)
+,p_display_sequence=>72
+,p_display_value=>'polygon'
+,p_return_value=>'polygon'
+);
+wwv_flow_api.create_plugin_attr_value(
+ p_id=>wwv_flow_api.id(23038807166812974)
+,p_plugin_attribute_id=>wwv_flow_api.id(22822310767007183)
+,p_display_sequence=>75
+,p_display_value=>'pyramid'
+,p_return_value=>'pyramid'
+);
+wwv_flow_api.create_plugin_attr_value(
  p_id=>wwv_flow_api.id(22908882157697980)
 ,p_plugin_attribute_id=>wwv_flow_api.id(22822310767007183)
 ,p_display_sequence=>80
 ,p_display_value=>'scatter'
 ,p_return_value=>'scatter'
+);
+wwv_flow_api.create_plugin_attr_value(
+ p_id=>wwv_flow_api.id(23057234103830595)
+,p_plugin_attribute_id=>wwv_flow_api.id(22822310767007183)
+,p_display_sequence=>85
+,p_display_value=>'solidgauge'
+,p_return_value=>'solidgauge'
 );
 wwv_flow_api.create_plugin_attr_value(
  p_id=>wwv_flow_api.id(22822995190008584)
@@ -307,6 +357,37 @@ wwv_flow_api.create_plugin_attribute(
 ,p_is_required=>true
 ,p_default_value=>'#000000'
 ,p_is_translatable=>false
+,p_depending_on_attribute_id=>wwv_flow_api.id(22971100564556468)
+,p_depending_on_has_to_exist=>true
+,p_depending_on_condition_type=>'EQUALS'
+,p_depending_on_expression=>'data'
+);
+wwv_flow_api.create_plugin_attribute(
+ p_id=>wwv_flow_api.id(22971100564556468)
+,p_plugin_id=>wwv_flow_api.id(22813857515739363)
+,p_attribute_scope=>'COMPONENT'
+,p_attribute_sequence=>25
+,p_display_sequence=>15
+,p_prompt=>'Query type'
+,p_attribute_type=>'SELECT LIST'
+,p_is_required=>true
+,p_default_value=>'data'
+,p_is_translatable=>false
+,p_lov_type=>'STATIC'
+);
+wwv_flow_api.create_plugin_attr_value(
+ p_id=>wwv_flow_api.id(22975312835559075)
+,p_plugin_attribute_id=>wwv_flow_api.id(22971100564556468)
+,p_display_sequence=>10
+,p_display_value=>'Data'
+,p_return_value=>'data'
+);
+wwv_flow_api.create_plugin_attr_value(
+ p_id=>wwv_flow_api.id(22975755539559902)
+,p_plugin_attribute_id=>wwv_flow_api.id(22971100564556468)
+,p_display_sequence=>20
+,p_display_value=>'Full'
+,p_return_value=>'full'
 );
 wwv_flow_api.create_plugin_std_attribute(
  p_id=>wwv_flow_api.id(22818250570739395)
