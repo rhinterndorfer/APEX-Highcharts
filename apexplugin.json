@@ -1,7 +1,7 @@
 {
     "name": "APEX Highcharts",
     "version": "0.1",
-    "description": "his plug-in is used to add charts powered by Highcharts (https://www.highcharts.com/products/highcharts) to your application with as little affort as possible (for simple charts) but also support the full power of Highcharts for advanced projects. Login for demo is user: demo, password: 12345678",
+    "description": "This plug-in is used to add charts powered by Highcharts (free for personal use, needs license for commerical use) (https://www.highcharts.com/products/highcharts) to your application with as little affort as possible (for simple charts) but also support the full power of Highcharts for advanced projects. Login for demo is user: demo, password: 12345678",
     "keywords": ["oracle", "apex", "plugin", "region", "charts", "highcharts"],
     "homepage": "https://github.com/rhinterndorfer/APEX-Highcharts",
     "bugs": {
